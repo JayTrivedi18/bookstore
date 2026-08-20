@@ -132,11 +132,14 @@ Sitemap: http://localhost:5500/sitemap.xml
 *This section evaluates performance metrics and optimizations applied to a collection layout containing multiple image assets and media.*
 
 ### 1. Optimizations Applied
-- **Flexbox Grid Structure:** Implemented a modern, responsive layout that adjusts based on screen width. This reduces layout shifts (CLS) compared to floats.
+- **Flexbox Grid Structure:** Implemented a modern, responsive layout that adjusts based on screen width.
 - **Image Compression:** Raw book cover images were compressed using lossless compression tools (reducing image sizes by 65–80% without visible quality degradation).
 - **WebP Transition:** Images were served in the modern WebP format instead of raw PNG/JPEG to minimize download payload.
 - **Lazy Loading Implementation:** Added `loading="lazy"` to all image tags (`<img>`) and video items. This ensures that assets are only loaded when they enter the user's viewport, saving bandwidth and improving Initial Load Times.
 - **Video Optimization:** The video embed was configured with `preload="none"` and standard controls to prevent synchronous, block-loading of large video streams on page initialization.
+- **CLS (Cumulative Layout Shift) Mitigation:**
+  - Enclosed each image in a stable `.image-container` wrapper with a fixed CSS height of `280px` and defined explicit `width="400"` and `height="533"` attributes on the `<img>` tags. This establishes default aspect ratios and locks the layout structure, preventing any content shift when lazy-loaded images load.
+  - Specified explicit `width="750"` and `height="422"` dimensions on the `<video>` element along with CSS `aspect-ratio: 16 / 9`, which preserves the widescreen player box before media initialization.
 
 ### 2. Core Web Vitals Comparison (Before vs. After Optimization)
 Performance metrics were compiled before and after running optimizations, simulated via Google PageSpeed Insights (Mobile and Desktop profiles):
